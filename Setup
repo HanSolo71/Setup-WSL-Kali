@@ -1,2 +1,2 @@
-sudo apt-get update && sudo apt-get dist-upgrade && sudo apt-get install metasploit-framework apache2 theharvester recon-ng netcat nikto dsniff
+sudo apt-get update && sudo apt-get dist-upgrade && sudo apt-get install metasploit-framework apache2 theharvester recon-ng netcat nikto dsniff ettercap-text-only
 alias dir=ls
