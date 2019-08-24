@@ -1,3 +1,30 @@
-sudo apt-get update && sudo apt-get dist-upgrade && sudo apt-get install metasploit-framework apache2 theharvester recon-ng netcat nikto dsniff ettercap-text-only openvas
+#Install Apps
+sudo apt-get update && sudo apt-get dist-upgrade && sudo apt-get install daemonize metasploit-framework apache2 theharvester recon-ng netcat nikto dsniff ettercap-text-only openvas
+
+#Create Scratch Space
+mkdir /usr/temp
+chmod -577 /usr/temp
+
+#Create needed systemd files
+sudo printf '[Unit]/n' > /usr/temp/wsl.target
+sudo printf 'Description=WSL System/n' > /usr/temp/wsl.target
+sudo printf 'Conflicts=multi-user.target graphical.target rescue.target/n' > /usr/temp/wsl.target
+sudo printf 'AllowIsolate=yes/n' > /usr/temp/wsl.target
+sudo mv /usr/temp/wsl.target  /etc/systemd/system/wsl.target
+sudo mkdir  /etc/systemd/system/wsl.target.wants
+sudo ln -s /lib/systemd/system/dbus.service /etc/systemd/system/wsl.target.wants/dbus.service 
+sudo printf '#!/bin/sh/n' > /usr/temp/systemd-start
+sudo printf 'mkdir /sys/fs/cgroup/systemd/n' > /usr/temp/wsl.target
+sudo printf 'mount -t cgroup -o none,name=systemd cgroup /sys/fs/cgroup/systemd/n' > /usr/temp/systemd-start
+sudo printf 'mount -t cgroup -o none,name=systemd cgroup /sys/fs/cgroup/systemd/n' > /usr/temp/systemd-start
+sudo printf 'daemonize /lib/systemd/systemd --system --system-unit=wsl.target/n' > /usr/temp/systemd-start
+sudo mv /usr/temp/systemd-start /usr/bin
+sudo chmod +x /usr/bin/systemd-start
+
+
+
+mount -t cgroup -o none,name=systemd cgroup /sys/fs/cgroup/systemd
+daemonize /lib/systemd/systemd --system --system-unit=wsl.target
+
 openvas-setup
 alias dir=ls
